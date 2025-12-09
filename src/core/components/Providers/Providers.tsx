@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useRef } from 'react';
+import { type FC, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import '@/core/globals.css';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Providers: FC<Props> = ({ children }) => {
-  const queryClientRef = useRef(new QueryClient({
+  const [queryClientRef] = useState(new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
@@ -22,7 +22,7 @@ const Providers: FC<Props> = ({ children }) => {
 
   return (
     <SettingsProvider>
-      <QueryClientProvider client={queryClientRef.current}>
+      <QueryClientProvider client={queryClientRef}>
         { children }
       </QueryClientProvider>
     </SettingsProvider>

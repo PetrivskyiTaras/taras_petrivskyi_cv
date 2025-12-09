@@ -40,9 +40,9 @@ export default {
     message: 'Non-shorthand properties must be defined first',
   },
     {
-    selector: 'ImportDeclaration[importKind=\'value\'][source.value=/\\u002Ecss$/i]:has(ImportDefaultSpecifier) ~ ImportDeclaration[importKind=\'value\'][source.value!=/\\u002Ecss$/i]',
-    message: 'Other modules must be imported before CSS',
-  }],
+      selector: 'ImportDeclaration[importKind=\'value\'][source.value=/\\u002Ecss$/i]:has(ImportDefaultSpecifier) ~ ImportDeclaration[importKind=\'value\'][source.value!=/\\u002Ecss$/i]',
+      message: 'Other modules must be imported before CSS',
+    }],
   'no-self-compare': 'error',
   'no-unmodified-loop-condition': 'error',
   'no-unneeded-ternary': 'error',
@@ -65,7 +65,7 @@ export default {
   '@stylistic/array-element-newline': ['error', 'consistent'],
   '@stylistic/arrow-parens': ['error', 'always'],
   '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
-  '@stylistic/func-call-spacing': 'error',
+  '@stylistic/function-call-spacing': 'error',
   '@stylistic/function-call-argument-newline': ['error', 'consistent'],
   '@stylistic/generator-star-spacing': 'error',
   '@stylistic/implicit-arrow-linebreak': ['error', 'beside'],
@@ -77,7 +77,7 @@ export default {
     allowMultiline: true,
   }],
   '@stylistic/jsx-one-expression-per-line': 'off',
-  '@stylistic/jsx-props-no-multi-spaces': 'error',
+  '@stylistic/no-multi-spaces': 'error',
   '@stylistic/linebreak-style': 'error',
   '@stylistic/max-len': ['error', {
     code: 140,
@@ -160,6 +160,7 @@ export default {
   'react/static-property-placement': 'error',
   'react/style-prop-object': 'error',
   'react/void-dom-elements-no-children': 'error',
+  'react-hooks/set-state-in-effect': 'off',
 
   'import/consistent-type-specifier-style': ['error', 'prefer-inline'],
   'import/first': 'error',
@@ -181,4 +182,6 @@ export default {
       ['parent', 'sibling'],
     ],
   }],
+  'import/no-named-as-default': 'off',
+  'import/no-named-as-default-member': 'off'
 };

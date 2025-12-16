@@ -5,6 +5,7 @@ export type ExperienceData = {
   startDate: string;
   endDate?: string;
   projectName: string;
+  linkToProject?: string;
   responsibilities: string;
   technologies: string;
   tools: string;

@@ -7,7 +7,9 @@ import {
   Divider,
   Collapse,
   Skeleton,
-  IconButton, Tooltip,
+  IconButton,
+  Tooltip,
+  Link,
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -96,7 +98,11 @@ const WorkExperience = () => {
                 </div>
                 <Collapse in={collapseItems[job.id]}>
                   <div>
-                    <Typography variant="body1" className={styles.positionSubTitle}>{ job.projectName }</Typography>
+                    <Typography variant="body1" className={styles.positionSubTitle}>
+                      { job.projectName }
+                      { job.linkToProject ? ' - ' : '' }
+                      { job.linkToProject ? <Link href={job.linkToProject} target="_blank">{ job.linkToProject }</Link> : null }
+                    </Typography>
                     <List className={styles.list}>
                       <ListItem>
                         <ListItemText

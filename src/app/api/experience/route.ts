@@ -2,6 +2,17 @@ export const GET = () => {
   const experienceData = [
     {
       id: '1',
+      position: 'Family Budget Pro (Founder and Developer)',
+      companyName: 'Family Budget Pro',
+      startDate: '2025-10-01T22:00:00.000Z',
+      projectName: 'My own project from scratch',
+      linkToProject: 'https://familybudget.pro',
+      responsibilities: 'built the project from scratch and delivered the full development lifecycle, Integrated deployment infrastructure using Vercel and Neon (PostgreSQL), implemented email sending via Resend and domain-based email routing through Vercel + Cloudflare, integrated WayForPay to support recurring subscription payments, implemented NextAuth.js with Google login and email/password authentication with email verification, developed a responsive UI optimized for web and mobile using Material-UI and custom design components, designed and implemented database models, API routes, and application logic',
+      technologies: 'TypeScript, React, Next.js, NextAuth.js, PostgreSQL (Neon), Prisma, Resend, WayForPay, Cloudflare, React Hook Form, MUI, MUI X Charts, TanStack Query',
+      tools: 'GitHub, WebStorm, GIT, Figma, Vercel',
+    },
+    {
+      id: '2',
       position: 'Senior Software Engineer/Full Stack Software Engineer',
       companyName: 'Radency',
       startDate: '2023-01-31T22:00:00.000Z',
@@ -11,7 +22,7 @@ export const GET = () => {
       tools: 'GitLab, WebStorm, GIT, Jira, Figma, Miro',
     },
     {
-      id: '2',
+      id: '3',
       position: 'Senior Software Engineer (Web Solutions)',
       companyName: 'Infopulse',
       date: 'Feb. 2020 - Jan. 2023',
@@ -23,7 +34,7 @@ export const GET = () => {
       tools: 'Azure DevOps, WebStorm, GIT, Jira, Xcode',
     },
     {
-      id: '3',
+      id: '4',
       position: 'Front-End Lead/Senior Software Engineer',
       companyName: 'Infopulse',
       startDate: '2021-06-30T21:00:00.000Z',
@@ -34,7 +45,7 @@ export const GET = () => {
       tools: 'Azure DevOps, WebStorm, GIT, Jira, Zeplin',
     },
     {
-      id: '4',
+      id: '5',
       position: 'Senior Software Engineer/Front End Tech Lead',
       companyName: 'K2Fly (prev Sateva)',
       startDate: '2020-06-30T21:00:00.000Z',
@@ -45,7 +56,7 @@ export const GET = () => {
       tools: 'WebStorm, GIT, Jira, Bitbucket, Everhour',
     },
     {
-      id: '5',
+      id: '6',
       position: 'Senior Javascript Developer',
       companyName: 'Ciklum',
       startDate: '2018-09-30T21:00:00.000Z',
@@ -56,7 +67,7 @@ export const GET = () => {
       tools: 'Azure, Azure DevOps, WebStorm, Jira',
     },
     {
-      id: '6',
+      id: '7',
       position: 'Middle Javascript Developer',
       companyName: 'GlobalLogic',
       startDate: '2017-06-30T21:00:00.000Z',
@@ -67,7 +78,7 @@ export const GET = () => {
       tools: 'IntelliJ IDEA, Jenkins, GitLab, Jira, Docker, Kubernetes',
     },
     {
-      id: '7',
+      id: '8',
       position: 'Junior/Middle Javascript/C# Developer',
       companyName: 'Terrasoft',
       startDate: '2015-11-30T22:00:00.000Z',
@@ -78,7 +89,7 @@ export const GET = () => {
       tools: 'WebStorm, Microsoft Visual Studio, SVN, JIRA',
     },
     {
-      id: '8',
+      id: '9',
       position: 'Junior Frontend Developer',
       companyName: 'Modern Telecom Engineering',
       startDate: '2014-12-31T22:00:00.000Z',

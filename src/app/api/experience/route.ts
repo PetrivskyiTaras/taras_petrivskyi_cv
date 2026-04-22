@@ -26,6 +26,7 @@ export const GET = () => {
       position: 'Senior Software Engineer/Full Stack Software Engineer',
       companyName: 'Radency',
       startDate: '2023-01-31T22:00:00.000Z',
+      endDate: '2026-04-10T22:00:00.000Z',
       projectName: 'Project from scratch (USA)',
       responsibilities: 'project from scratch, architecture planning (front end), all technical solutions, creating tasks, development of new features, writing unit tests, code review, mentoring, small BackEnd tasks using Kotlin and Express',
       technologies: 'TypeScript, React, Next.js, React Hook Form, JSX, Jest + React Testing Library, Material-UI, GraphQL/Apollo, TanStack Query (FKA React Query), Chart.js, Redash, Kotlin, Express.js',

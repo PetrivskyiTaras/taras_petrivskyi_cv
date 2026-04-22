@@ -2,6 +2,16 @@ export const GET = () => {
   const experienceData = [
     {
       id: '1',
+      position: 'Senior Software Engineer',
+      companyName: 'Gemicle',
+      startDate: '2026-01-06T22:00:00.000Z',
+      projectName: 'Startup',
+      responsibilities: 'built projects from scratch with full ownership of front-end architecture and technical decisions, designed scalable and maintainable architecture, including state management and data flow, developed real-time AI chat interfaces (streaming responses, UX for conversational flows), code reviews, collaborated closely with design using Figma (+ MCP workflow)',
+      technologies: 'TypeScript, React, React Router, React Hook Form, JSX, TanStack Query (FKA React Query), Zustand, Tailwind CSS, Storybook, TanStack React Table, Monaco Editor, React Markdown, streaming-based chat interfaces',
+      tools: 'GitHub, IntelliJ IDEA, Cursor (AI-assisted development), Claude, Gemini, GIT, Jira, Figma (+ MCP workflow)',
+    },
+    {
+      id: '2',
       position: 'Family Budget Pro (Founder and Developer)',
       companyName: 'Family Budget Pro',
       startDate: '2025-10-01T22:00:00.000Z',
@@ -12,7 +22,7 @@ export const GET = () => {
       tools: 'GitHub, WebStorm, GIT, Figma, Vercel',
     },
     {
-      id: '2',
+      id: '3',
       position: 'Senior Software Engineer/Full Stack Software Engineer',
       companyName: 'Radency',
       startDate: '2023-01-31T22:00:00.000Z',
@@ -22,7 +32,7 @@ export const GET = () => {
       tools: 'GitLab, WebStorm, GIT, Jira, Figma, Miro',
     },
     {
-      id: '3',
+      id: '4',
       position: 'Senior Software Engineer (Web Solutions)',
       companyName: 'Infopulse',
       date: 'Feb. 2020 - Jan. 2023',
@@ -34,7 +44,7 @@ export const GET = () => {
       tools: 'Azure DevOps, WebStorm, GIT, Jira, Xcode',
     },
     {
-      id: '4',
+      id: '5',
       position: 'Front-End Lead/Senior Software Engineer',
       companyName: 'Infopulse',
       startDate: '2021-06-30T21:00:00.000Z',
@@ -45,7 +55,7 @@ export const GET = () => {
       tools: 'Azure DevOps, WebStorm, GIT, Jira, Zeplin',
     },
     {
-      id: '5',
+      id: '6',
       position: 'Senior Software Engineer/Front End Tech Lead',
       companyName: 'K2Fly (prev Sateva)',
       startDate: '2020-06-30T21:00:00.000Z',
@@ -56,7 +66,7 @@ export const GET = () => {
       tools: 'WebStorm, GIT, Jira, Bitbucket, Everhour',
     },
     {
-      id: '6',
+      id: '7',
       position: 'Senior Javascript Developer',
       companyName: 'Ciklum',
       startDate: '2018-09-30T21:00:00.000Z',
@@ -67,7 +77,7 @@ export const GET = () => {
       tools: 'Azure, Azure DevOps, WebStorm, Jira',
     },
     {
-      id: '7',
+      id: '8',
       position: 'Middle Javascript Developer',
       companyName: 'GlobalLogic',
       startDate: '2017-06-30T21:00:00.000Z',
@@ -78,7 +88,7 @@ export const GET = () => {
       tools: 'IntelliJ IDEA, Jenkins, GitLab, Jira, Docker, Kubernetes',
     },
     {
-      id: '8',
+      id: '9',
       position: 'Junior/Middle Javascript/C# Developer',
       companyName: 'Terrasoft',
       startDate: '2015-11-30T22:00:00.000Z',
@@ -89,7 +99,7 @@ export const GET = () => {
       tools: 'WebStorm, Microsoft Visual Studio, SVN, JIRA',
     },
     {
-      id: '9',
+      id: '10',
       position: 'Junior Frontend Developer',
       companyName: 'Modern Telecom Engineering',
       startDate: '2014-12-31T22:00:00.000Z',

@@ -8,22 +8,27 @@ export const GET = () => {
     {
       id: '2',
       category: 'Technologies',
-      skill: 'React, Next.JS, Redux/Redux Toolkit + Redux Saga, GraphQL/Apollo, MobX, Webpack/Vite, GIT, Docker, NX, React Native (don\'t want to work with it), Node.js (I developed small services only, can take small BE tasks)',
+      skill: 'React, Next.JS, Redux/Redux Toolkit + Redux Saga, GraphQL/Apollo, MobX, Zustand, Webpack/Vite, GIT, Docker, NX, React Native (don\'t want to work with it), Node.js (I developed small services only, can take small BE tasks)',
     },
     {
       id: '3',
+      category: 'AI',
+      skill: 'Cursor, Claude, Gemini, ChatGPT',
+    },
+    {
+      id: '4',
       category: 'DBMS',
       skill: 'MSSQL, MySQL, Redash',
     },
     {
-      id: '4',
+      id: '5',
       category: 'JS Libraries',
-      skill: 'Material-UI, TanStack Query (FKA React Query), React Hook Form, Redux Form, Storybook, Jest + React Testing Library, React-Awesome-Query-Builder, Highcharts, Chart.js',
+      skill: 'Material-UI, TanStack Query (FKA React Query)/TanStack React Table, React Hook Form, Redux Form, Storybook, Jest + React Testing Library, React-Awesome-Query-Builder, Highcharts, Chart.js, Tailwind CSS, Monaco Editor, React Markdown',
     },
     {
-      id: '5',
+      id: '6',
       category: 'Tools',
-      skill: 'JetBrains WebStorm/IntelliJ IDEA, GitHub/GitLab/Bitbucket, JIRA, Azure DevOps, Bpm’online, Microsoft Visual Studio',
+      skill: 'JetBrains WebStorm/IntelliJ IDEA, GitHub/GitLab/Bitbucket, JIRA, Azure DevOps, Bpm’online, Microsoft Visual Studio, Cursor',
     },
   ];
 

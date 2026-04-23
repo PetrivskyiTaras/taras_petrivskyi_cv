@@ -88,3 +88,17 @@
   font-size: 1rem;
   padding-left: 8px;
 }
+
+.responsibilityList {
+  list-style-type: disc;
+  padding-left: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.responsibilityListItems {
+  display: list-item;
+  padding-bottom: 0;
+  padding-top: 0;
+  padding-left: 4px;
+}

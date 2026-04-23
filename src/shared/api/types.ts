@@ -6,8 +6,8 @@ export type ExperienceData = {
   endDate?: string;
   projectName: string;
   linkToProject?: string;
-  responsibilities: string;
-  technologies: string;
+  responsibilities: string[];
+  techStack: string;
   tools: string;
 };
 

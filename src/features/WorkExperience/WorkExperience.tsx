@@ -110,8 +110,16 @@ const WorkExperience = () => {
                             primary: styles.textPrimary,
                             secondary: styles.textSecondary,
                           }}
-                          primary="Responsibilities:"
-                          secondary={job.responsibilities}
+                          primary="Key contributions:"
+                          secondary={(
+                            <List className={styles.responsibilityList}>
+                              { job.responsibilities.map((item) => (
+                                <ListItem key={item} className={styles.responsibilityListItems}>
+                                  { item }
+                                </ListItem>
+                              )) }
+                            </List>
+                          )}
                         />
                       </ListItem>
                       <ListItem>
@@ -120,8 +128,8 @@ const WorkExperience = () => {
                             primary: styles.textPrimary,
                             secondary: styles.textSecondary,
                           }}
-                          primary="Technologies:"
-                          secondary={job.technologies}
+                          primary="Tech stack:"
+                          secondary={job.techStack}
                         />
                       </ListItem>
                       <ListItem>

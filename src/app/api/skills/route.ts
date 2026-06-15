@@ -23,7 +23,7 @@ export const GET = () => {
     {
       id: '5',
       category: 'Backend & Databases',
-      skill: 'Node.js, MSSQL, MySQL, Redash',
+      skill: 'Node.js, MSSQL, MySQL, Redash, Express.js',
     },
     {
       id: '6',

@@ -1,21 +1,23 @@
 export const GET = () => {
   const experienceData = [
-    // {
-    //   id: '1',
-    //   position: 'Senior Software Engineer',
-    //   companyName: 'Gemicle',
-    //   startDate: '2026-01-06T22:00:00.000Z',
-    //   projectName: 'Early-stage startup',
-    //   responsibilities: [
-    //     'Built frontend architecture from scratch with full ownership of technical decisions',
-    //     'Designed scalable state management and data flow architecture',
-    //     'Developed real-time AI chat interfaces with streaming responses and conversational UX',
-    //     'Collaborated closely with design (Figma + MCP workflow) to improve product UX',
-    //     'Conducted code reviews and contributed to development quality',
-    //   ],
-    //   techStack: 'TypeScript, React, React Router, React Hook Form, TanStack Query, Zustand, Tailwind CSS, Storybook, TanStack React Table, Monaco Editor, React Markdown',
-    //   tools: 'GitHub, IntelliJ IDEA, Cursor, Claude, Gemini, GIT, Jira, Figma',
-    // },
+    {
+      id: '1',
+      position: 'Senior Full-Stack Software Engineer',
+      companyName: 'Gemicle',
+      startDate: '2026-01-06T22:00:00.000Z',
+      projectName: 'Early-stage startup',
+      responsibilities: [
+        'Built full-stack architecture from scratch with full ownership of technical decisions',
+        'Designed scalable state management, data flow, and RESTful API architecture',
+        'Developed real-time AI chat interfaces with streaming responses and conversational UX',
+        'Built backend services and AI model integrations (OpenAI / Anthropic / Gemini APIs)',
+        'Integrated AWS cloud infrastructure for deployment and scalable backend operations',
+        'Collaborated closely with design (Figma + MCP workflow) to improve product UX',
+        'Conducted code reviews and contributed to overall development quality',
+      ],
+      techStack: 'TypeScript, React, React Router, React Hook Form, TanStack Query, Zustand, Tailwind CSS, Storybook, TanStack React Table, Monaco Editor, React Markdown, Node.js, Express, REST API, AI model integrations (streaming, conversational UX), AWS',
+      tools: 'GitHub, IntelliJ IDEA, Cursor, Claude, Gemini, GIT, Jira, Figma',
+    },
     {
       id: '2',
       position: 'Family Budget Pro (Founder and Developer)',
@@ -41,7 +43,7 @@ export const GET = () => {
       position: 'Senior Software Engineer/Full Stack Software Engineer',
       companyName: 'Radency',
       startDate: '2023-01-31T22:00:00.000Z',
-      // endDate: '2026-04-10T22:00:00.000Z',
+      endDate: '2026-04-10T22:00:00.000Z',
       projectName: 'US marketplace for tokenized assets from scratch',
       responsibilities: [
         'Led frontend architecture and development of a marketplace from scratch',

@@ -9,19 +9,26 @@
     background-color: transparent;
     text-decoration: underline;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 .buttonRoot {
   padding: 0;
-  max-height: 0.875rem;
+  min-width: 0;
+  font-size: var(--fs-meta);
+  line-height: inherit;
 }
 
-.value,
-.copyButton {
-  font-size: 0.875rem;
+.value {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .copyButton {
+  font-size: var(--fs-meta);
   width: 23px;
   height: 23px;
 

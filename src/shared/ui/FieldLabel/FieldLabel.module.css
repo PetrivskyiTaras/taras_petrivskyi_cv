@@ -1,0 +1,10 @@
+.root {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  color: var(--mui-palette-text-secondary);
+  margin-bottom: 6px;
+  break-after: avoid;
+}

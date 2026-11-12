@@ -4,11 +4,12 @@ export type ExperienceData = {
   companyName: string;
   startDate: string;
   endDate?: string;
+  dateNote?: string;
   projectName: string;
   linkToProject?: string;
   responsibilities: string[];
   techStack: string;
-  tools: string;
+  tools?: string;
 };
 
 export type EducationData = {

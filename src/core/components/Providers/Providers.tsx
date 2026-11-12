@@ -1,32 +1,24 @@
 'use client';
 
-import { type FC, useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { type FC } from 'react';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import '@/core/globals.css';
 
-import { SettingsProvider } from '@/core/settings/SettingsContext';
+import theme, { COLOR_MODE_STORAGE_KEY } from '@/core/theme/theme';
 
 type Props = {
   children: React.ReactNode;
 };
 
-const Providers: FC<Props> = ({ children }) => {
-  const [queryClientRef] = useState(new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  }));
-
-  return (
-    <SettingsProvider>
-      <QueryClientProvider client={queryClientRef}>
-        { children }
-      </QueryClientProvider>
-    </SettingsProvider>
-  );
-};
+const Providers: FC<Props> = ({ children }) => (
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme} defaultMode="system" modeStorageKey={COLOR_MODE_STORAGE_KEY}>
+      <CssBaseline />
+      { children }
+    </ThemeProvider>
+  </StyledEngineProvider>
+);
 
 export default Providers;

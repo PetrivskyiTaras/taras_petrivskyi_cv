@@ -1,50 +1,27 @@
-import { Fab, Tooltip } from '@mui/material';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { type FC, useEffect, useRef, useState } from 'react';
+import { Button } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import { type FC } from 'react';
+
+const PDF_URL = '/files/Taras_Petrivskyi_Full_Stack_CV.pdf';
+const PDF_FILE_NAME = 'Taras_Petrivskyi_Full_Stack_CV.pdf';
 
 type Props = {
   className?: string;
 };
 
-const DownloadPdfButton: FC<Props> = ({ className }) => {
-  const [isDownloading, setIsDownloading] = useState(false);
-  const timerId = useRef<number | undefined>(undefined);
-
-  const handleDownload = () => {
-    if (!isDownloading && typeof window !== 'undefined') {
-      setIsDownloading(true);
-
-      if (timerId.current) {
-        window.clearTimeout(timerId.current);
-      }
-      timerId.current = window.setTimeout(() => {
-        setIsDownloading(false);
-      }, 5000);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timerId.current && typeof window !== 'undefined') {
-        window.clearTimeout(timerId.current);
-      }
-    };
-  }, []);
-
-  return (
-    <Tooltip title="Download CV in PDF format" arrow>
-      <Fab
-        color="primary"
-        className={className}
-        size="small"
-        href={isDownloading ? '' : '/api/pdf'}
-        onClick={handleDownload}
-        disabled={isDownloading}
-      >
-        <PictureAsPdfIcon />
-      </Fab>
-    </Tooltip>
-  );
-};
+// Plain link to the static PDF: served from the CDN, works without JS, no extra state.
+const DownloadPdfButton: FC<Props> = ({ className }) => (
+  <Button
+    variant="contained"
+    color="primary"
+    href={PDF_URL}
+    download={PDF_FILE_NAME}
+    startIcon={<DownloadIcon />}
+    className={className}
+    disableElevation
+  >
+    Download CV (PDF)
+  </Button>
+);
 
 export default DownloadPdfButton;

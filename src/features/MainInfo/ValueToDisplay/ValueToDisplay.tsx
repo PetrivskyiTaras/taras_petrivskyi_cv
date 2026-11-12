@@ -6,22 +6,34 @@ import CopyButton from '@/features/MainInfo/ValueToDisplay/CopyButton';
 import styles from './ValueToDisplay.module.css';
 
 type Props = {
-  value: string;
+  value?: string;
   fakeValue: string;
   displayName: string;
   forcedToShow?: boolean;
   href?: string;
+  onShow?: () => Promise<void>;
 };
 
-const ValueToDisplay: FC<Props> = ({ value, fakeValue, forcedToShow, href, displayName }) => {
+const ValueToDisplay: FC<Props> = ({ value, fakeValue, forcedToShow, href, displayName, onShow }) => {
   const [show, setShow] = useState<boolean>(false);
-  const showValue = show || forcedToShow;
-  const valueToDisplay = showValue ? value : fakeValue;
+  const [loading, setLoading] = useState<boolean>(false);
+  const showValue = (show || !!forcedToShow) && !!value;
+  const valueToDisplay = showValue && value ? value : fakeValue;
   const showLink = !!href && showValue;
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (event.isTrusted && !show) {
+  const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
+    if (!event.isTrusted || show || loading) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await onShow?.();
       setShow(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +60,7 @@ const ValueToDisplay: FC<Props> = ({ value, fakeValue, forcedToShow, href, displ
           }}
           className={styles.button}
           onClick={handleClick}
+          loading={loading}
         >
           { `Show ${ displayName }` }
         </Button>

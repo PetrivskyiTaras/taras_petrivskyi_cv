@@ -1,0 +1,30 @@
+/* Frosted button that reads well over the photo in both themes. */
+.root {
+  width: 40px;
+  height: 40px;
+  color: #ffffff;
+  background-color: rgb(10 20 35 / 0.45);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgb(255 255 255 / 0.25);
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background-color: rgb(10 20 35 / 0.65);
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+.sun {
+  display: none;
+}
+
+:global(.dark) .sun {
+  display: block;
+}
+
+:global(.dark) .moon {
+  display: none;
+}

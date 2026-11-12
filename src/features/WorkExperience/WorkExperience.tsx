@@ -1,155 +1,114 @@
-import {
-  Paper,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Collapse,
-  Skeleton,
-  IconButton,
-  Tooltip,
-  Link,
-} from '@mui/material';
+import { Paper, Typography, Collapse, IconButton, Tooltip, Link } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-import BusinessIcon from '@mui/icons-material/Business';
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useQuery } from '@tanstack/react-query';
-import { type AxiosResponse } from 'axios';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useState } from 'react';
 
-import { REACT_QUERY_KEYS } from '@/shared/constants';
-import { http } from '@/core/api';
-import { type ExperienceData } from '@/shared/api/types';
+import { EXPERIENCE } from '@/shared/data';
+import SectionHeader from '@/shared/ui/SectionHeader';
+import FieldLabel from '@/shared/ui/FieldLabel';
+import TagList from '@/shared/ui/TagList';
 import { getDatePeriodString } from '@/features/WorkExperience/utils';
 
 import styles from './WorkExperience.module.css';
 
 const WorkExperience = () => {
-  const [collapseItems, setCollapseItems] = useState<Partial<Record<string, boolean>>>({});
+  const [expandedItems, setExpandedItems] = useState<Partial<Record<string, boolean>>>(
+    () => EXPERIENCE.reduce((acc, item) => ({ ...acc, [item.id]: true }), {}),
+  );
 
-  const { data, isLoading } = useQuery<AxiosResponse<ExperienceData[]>>({
-    queryKey: [REACT_QUERY_KEYS.WORK_EXPERIENCE],
-    queryFn: async () => http.get('/api/experience'),
-    retry: false,
-    staleTime: 1000 * 60 * 60 * 48,
-  });
-
-  const experienceData = useMemo(() => data?.data || [], [data]);
-
-  useEffect(() => {
-    setCollapseItems(experienceData.reduce((acc, item) => ({ ...acc, [item.id]: true }), {}));
-  }, [experienceData]);
-
-  const anyExpandItem = Object.values(collapseItems).some((item) => item);
+  const anyExpanded = Object.values(expandedItems).some((item) => item);
 
   const handleToggleAll = () => {
-    setCollapseItems(
-      experienceData.reduce((acc, item) => ({ ...acc, [item.id]: !anyExpandItem }), {}),
-    );
+    setExpandedItems(EXPERIENCE.reduce((acc, item) => ({ ...acc, [item.id]: !anyExpanded }), {}));
   };
 
-  return isLoading ? (
-    <Skeleton variant="rectangular" width="100%" height={600} />
-  ) : (
+  const toggleItem = (id: string) => {
+    setExpandedItems((prevState) => ({ ...prevState, [id]: !prevState[id] }));
+  };
+
+  return (
     <Paper className={styles.root}>
-      <div className={styles.experienceTitle}>
-        <WorkIcon className={styles.workExperienceIcon} />
-        <Typography variant="h4">Work Experience</Typography>
-        <div className={styles.collapseAllButton}>
-          <Tooltip title={anyExpandItem ? 'Collapse All' : 'Expand All'} placement="left" arrow>
-            <IconButton color="success" onClick={handleToggleAll}>
-              { anyExpandItem ? <UnfoldLessIcon /> : <UnfoldMoreIcon /> }
+      <SectionHeader
+        icon={<WorkIcon />}
+        title="Work Experience"
+        action={(
+          <Tooltip title={anyExpanded ? 'Collapse all' : 'Expand all'} placement="left" arrow>
+            <IconButton color="primary" size="small" onClick={handleToggleAll} className={styles.toggleAll}>
+              { anyExpanded ? <UnfoldLessIcon /> : <UnfoldMoreIcon /> }
             </IconButton>
           </Tooltip>
-        </div>
-      </div>
-      <div className={styles.jobInfoWrap}>
-        { experienceData.map((job, index) => {
+        )}
+      />
+      <ol className={styles.timeline}>
+        { EXPERIENCE.map((job) => {
+          const expanded = !!expandedItems[job.id];
+          const detailsId = `job-details-${ job.id }`;
+
           return (
-            <Fragment key={job.id}>
-              { index > 0 ? <Divider flexItem /> : null }
-              <div className={styles.jobInfo}>
-                <div className={styles.positionWrap}>
-                  <div>
-                    <Typography variant="body1" className={styles.positionTitle}>{ job.position }</Typography>
-                    <Typography variant="body2" className={styles.companyNameTitle} color="info.light">
-                      <BusinessIcon />
-                      { job.companyName }
-                    </Typography>
-                  </div>
-                  <Tooltip title={collapseItems[job.id] ? 'Show less' : 'Show more'} placement="left" arrow>
-                    <IconButton
-                      onClick={() => setCollapseItems((prevState) => ({ ...prevState, [job.id]: !prevState[job.id] }))}
-                    >
-                      { collapseItems[job.id] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <div className={styles.date}>
-                  <CalendarMonthIcon color="success" className={styles.dateItem} />
-                  <Typography variant="body1" color="success" className={styles.dateItem}>
+            <li key={job.id} className={styles.job} data-expanded={expanded}>
+              { /* The whole header toggles on click; the chevron button is the accessible control. */ }
+              <div className={styles.header} onClick={() => toggleItem(job.id)}>
+                <div className={styles.headerMain}>
+                  <Typography variant="h6" component="h3" className={styles.position}>{ job.position }</Typography>
+                  <Typography variant="body2" className={styles.company}>
+                    <span className={styles.companyName}>{ job.companyName }</span>
+                    <span className={styles.project}>{ job.projectName }</span>
+                  </Typography>
+                  <Typography variant="body2" className={styles.date} suppressHydrationWarning>
+                    <CalendarMonthIcon className={styles.dateIcon} />
                     { getDatePeriodString(job.startDate, job.endDate) }
+                    { job.dateNote ? ` · ${ job.dateNote }` : '' }
                   </Typography>
                 </div>
-                <Collapse in={collapseItems[job.id]}>
-                  <div>
-                    <Typography variant="body1" className={styles.positionSubTitle}>
-                      { job.projectName }
-                      { job.linkToProject ? ' - ' : '' }
-                      { job.linkToProject ? <Link href={job.linkToProject} target="_blank">{ job.linkToProject }</Link> : null }
-                    </Typography>
-                    <List className={styles.list}>
-                      <ListItem>
-                        <ListItemText
-                          classes={{
-                            primary: styles.textPrimary,
-                            secondary: styles.textSecondary,
-                          }}
-                          primary="Key contributions:"
-                          secondary={(
-                            <List className={styles.responsibilityList}>
-                              { job.responsibilities.map((item) => (
-                                <ListItem key={item} className={styles.responsibilityListItems}>
-                                  { item }
-                                </ListItem>
-                              )) }
-                            </List>
-                          )}
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText
-                          classes={{
-                            primary: styles.textPrimary,
-                            secondary: styles.textSecondary,
-                          }}
-                          primary="Tech stack:"
-                          secondary={job.techStack}
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText
-                          classes={{
-                            primary: styles.textPrimary,
-                            secondary: styles.textSecondary,
-                          }}
-                          primary="Tools:"
-                          secondary={job.tools}
-                        />
-                      </ListItem>
-                    </List>
-                  </div>
-                </Collapse>
+                <Tooltip title={expanded ? 'Show less' : 'Show more'} placement="left" arrow>
+                  <IconButton
+                    size="small"
+                    className={styles.toggle}
+                    aria-expanded={expanded}
+                    aria-controls={detailsId}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleItem(job.id);
+                    }}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
+                </Tooltip>
               </div>
-            </Fragment>
+              <Collapse in={expanded} id={detailsId} className={styles.collapse}>
+                <div className={styles.details}>
+                  { job.linkToProject ? (
+                    <Link href={job.linkToProject} target="_blank" rel="noopener noreferrer" className={styles.projectLink}>
+                      { job.linkToProject.replace(/^https?:\/\//u, '') }
+                    </Link>
+                  ) : null }
+                  <div>
+                    <FieldLabel>Key contributions</FieldLabel>
+                    <ul className={styles.bullets}>
+                      { job.responsibilities.map((item) => (
+                        <li key={item}>{ item }</li>
+                      )) }
+                    </ul>
+                  </div>
+                  <div>
+                    <FieldLabel>Stack</FieldLabel>
+                    <TagList items={job.techStack} />
+                  </div>
+                  { job.tools ? (
+                    <div>
+                      <FieldLabel>Tools</FieldLabel>
+                      <Typography variant="body2" className={styles.text}>{ job.tools }</Typography>
+                    </div>
+                  ) : null }
+                </div>
+              </Collapse>
+            </li>
           );
         }) }
-      </div>
+      </ol>
     </Paper>
   );
 };

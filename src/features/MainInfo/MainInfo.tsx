@@ -1,148 +1,159 @@
 import Image from 'next/image';
-import { Divider, List, Paper, Skeleton, Typography } from '@mui/material';
+import { Link, Paper, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
-import { useQuery } from '@tanstack/react-query';
-import { type AxiosResponse } from 'axios';
-import { type FC, type RefObject, useState } from 'react';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import LanguageIcon from '@mui/icons-material/Language';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import CodeIcon from '@mui/icons-material/Code';
+import TranslateIcon from '@mui/icons-material/Translate';
+import { type FC, useCallback, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
-import { type LanguagesData, type PersonalInfo, type SkillData } from '@/shared/api/types';
-import { REACT_QUERY_KEYS } from '@/shared/constants';
-import { http } from '@/core/api';
+import { LANGUAGES, SKILLS } from '@/shared/data';
+import { type PersonalInfo } from '@/shared/api/types';
 import PrintButton from '@/shared/ui/PrintButton';
 import DownloadPdfButton from '@/shared/ui/DownloadPdfButton';
+import SectionHeader from '@/shared/ui/SectionHeader';
+import FieldLabel from '@/shared/ui/FieldLabel';
+import TagList from '@/shared/ui/TagList';
 
-import SkillListItem from './SkillListItem';
+import ContactItem from './ContactItem';
+import CopyButton from './ValueToDisplay/CopyButton';
 import ValueToDisplay from './ValueToDisplay';
 import ToggleThemeButton from './ToggleThemeButton';
+import usePrintMode from './usePrintMode';
 import styles from './MainInfo.module.css';
 
-type Props = {
-  rootRef: RefObject<HTMLDivElement | null>;
-};
+const LINKEDIN_URL = 'https://www.linkedin.com/in/taras-petrivskyi-31547393';
+const FAMILY_BUDGET_URL = 'https://familybudget.pro';
 
-const MainInfo: FC<Props> = ({ rootRef }) => {
-  const [printing, setPrinting] = useState(false);
+const MainInfo: FC = () => {
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
+  const personalInfoRequest = useRef<Promise<void> | null>(null);
 
-  const { isLoading: loadingSkills, data: skillsData } = useQuery<AxiosResponse<SkillData[]>>({
-    queryKey: [REACT_QUERY_KEYS.SKILLS],
-    queryFn: async () => http.get('/api/skills'),
-    retry: false,
-    staleTime: 1000 * 60 * 60 * 48,
-  });
+  // Contact details live only on the server and are requested on demand (Show / Print).
+  const loadPersonalInfo = useCallback(async () => {
+    // eslint-disable-next-line compat/compat
+    personalInfoRequest.current ??= fetch('/api/personal-info')
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load personal info: ${ response.status }`);
+        }
 
-  const { isLoading: loadingLanguages, data: languagesData } = useQuery<AxiosResponse<LanguagesData[]>>({
-    queryKey: [REACT_QUERY_KEYS.LANGUAGES],
-    queryFn: async () => http.get('/api/languages'),
-    retry: false,
-    staleTime: 1000 * 60 * 60 * 48,
-  });
+        const data = await response.json() as PersonalInfo;
 
-  const { data: personalInfoData, isLoading: personalInfoLoading } = useQuery<AxiosResponse<PersonalInfo>>({
-    queryKey: [REACT_QUERY_KEYS.PERSONAL_INFO],
-    queryFn: async () => http.get('/api/personal-info'),
-    retry: false,
-    staleTime: 1000 * 60 * 60 * 48,
-  });
+        flushSync(() => setPersonalInfo(data));
+      })
+      .catch((error: unknown) => {
+        personalInfoRequest.current = null;
+        throw error;
+      });
 
-  const skills = skillsData?.data || [];
-  const languages = languagesData?.data || [];
-  const personalInfo = personalInfoData?.data || { phone: '', email: '' };
-  const isSomethingLoading = loadingSkills || loadingLanguages || personalInfoLoading;
+    return personalInfoRequest.current;
+  }, []);
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const onBeforePrint = async () => {
-    setPrinting(true);
-  };
-
-  const onAfterPrint = () => {
-    setPrinting(false);
-  };
+  const { printing, print } = usePrintMode(loadPersonalInfo);
 
   return (
     <Paper elevation={4} className={styles.root}>
       <div className={styles.avatarContainer}>
         <ToggleThemeButton className={styles.toggleThemeButton} />
-        <Image src="/avatar.jpg" alt="Petrivskyi Taras" width="445" height="500" className={styles.avatar} />
+        <Image
+          src="/avatar.jpg"
+          alt="Petrivskyi Taras"
+          width="445"
+          height="500"
+          sizes="(min-width: 900px) 445px, 100vw"
+          className={styles.avatar}
+          preload
+        />
         <div className={styles.titleContainer}>
           <Typography variant="h1" className={styles.name} textAlign="center">
             Taras Petrivskyi
           </Typography>
           <Typography variant="h2" className={styles.position} textAlign="center">
-            Senior Software Engineer / Front-End Lead
+            Senior Full-Stack Software Engineer
+            <br />
+            Technical Lead
           </Typography>
           <Typography variant="body1" className={styles.specialization} textAlign="center">
-            (JavaScript/TypeScript + React/Next.js)
+            (TypeScript + React/Next.js + Node.js)
           </Typography>
         </div>
       </div>
       <div className={styles.info}>
-        { isSomethingLoading ? null : (
-          <div className={styles.actionButtons}>
-            <PrintButton contentRef={rootRef} className={styles.printButton} onAfterPrint={onAfterPrint} onBeforePrint={onBeforePrint} />
-            <DownloadPdfButton className={styles.pdfButton} />
+        <div className={styles.actionButtons}>
+          <DownloadPdfButton className={styles.downloadButton} />
+          <PrintButton onPrint={() => void print()} className={styles.printButton} />
+        </div>
+        <section className={styles.section}>
+          <SectionHeader icon={<ContactMailIcon />} title="Contact" />
+          <ul className={styles.contacts}>
+            <ContactItem icon={<PhoneIcon />} label="Phone">
+              <ValueToDisplay
+                value={personalInfo?.phone}
+                displayName="Phone"
+                href={personalInfo ? `tel:${ personalInfo.phone }` : undefined}
+                onShow={loadPersonalInfo}
+                fakeValue="+38 (096) 9....."
+                forcedToShow={printing}
+              />
+            </ContactItem>
+            <ContactItem icon={<EmailIcon />} label="Email">
+              <ValueToDisplay
+                value={personalInfo?.email}
+                displayName="Email"
+                href={personalInfo ? `mailto:${ personalInfo.email }` : undefined}
+                onShow={loadPersonalInfo}
+                fakeValue="taras........@gmail.com"
+                forcedToShow={printing}
+              />
+            </ContactItem>
+            <ContactItem icon={<HomeIcon />} label="Location">
+              Kyiv, Ukraine
+            </ContactItem>
+            <ContactItem icon={<LinkedInIcon />} label="LinkedIn">
+              <span className={styles.linkRow}>
+                <Link href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                  linkedin.com/in/taras-petrivskyi-31547393
+                </Link>
+                <CopyButton value={LINKEDIN_URL} copyText="Copy LinkedIn link" copiedText="LinkedIn link was copied" className={styles.copyButton} />
+              </span>
+            </ContactItem>
+            <ContactItem icon={<LanguageIcon />} label="My SaaS project">
+              <span className={styles.linkRow}>
+                <Link href={FAMILY_BUDGET_URL} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                  FamilyBudget.pro
+                </Link>
+                <CopyButton value={FAMILY_BUDGET_URL} copyText="Copy FamilyBudget.pro link" copiedText="FamilyBudget.pro link was copied" className={styles.copyButton} />
+              </span>
+            </ContactItem>
+          </ul>
+        </section>
+        <section className={styles.section}>
+          <SectionHeader icon={<CodeIcon />} title="Skills" />
+          <div className={styles.skillGroups}>
+            { SKILLS.map((item) => (
+              <div key={item.id}>
+                <FieldLabel>{ item.category }</FieldLabel>
+                <TagList items={item.skill} />
+              </div>
+            )) }
           </div>
-        ) }
-        { personalInfoLoading ? <Skeleton variant="rectangular" width="100%" height={210} /> : (
-          <List className={styles.infoList}>
-            <SkillListItem
-              className={styles.listItem}
-              icon={<PhoneIcon className={styles.listItemIcon} />}
-              primaryText="Phone"
-              secondaryText={(
-                <ValueToDisplay
-                  value={personalInfo.phone}
-                  displayName="Phone"
-                  href={`tel:${ personalInfo.phone }`}
-                  fakeValue="+38 (096) 9....."
-                  forcedToShow={printing}
-                />
-              )}
-            />
-            <SkillListItem
-              className={styles.listItem}
-              icon={<EmailIcon className={styles.listItemIcon} />}
-              primaryText="Email"
-              secondaryText={(
-                <ValueToDisplay
-                  value={personalInfo.email}
-                  displayName="Email"
-                  href={`mailto:${ personalInfo.email }`}
-                  fakeValue="taras........@gmail.com"
-                  forcedToShow={printing}
-                />
-              )}
-            />
-            <SkillListItem className={styles.listItem} icon={<HomeIcon className={styles.listItemIcon} />} primaryText="Address" secondaryText="Kyiv, Ukraine" />
-          </List>
-        ) }
-        <Divider flexItem />
-        <div className={styles.skillsWrap}>
-          <Typography variant="h6" className={styles.skillsTitle}>Skills</Typography>
-          { loadingSkills ? (
-            <Skeleton variant="rectangular" width="100%" height={500} />
-          ) : (
-            <List className={styles.skillList}>
-              { skills.map((item) => (
-                <SkillListItem key={item.id} primaryText={`${ item.category }:`} secondaryText={item.skill} />
-              )) }
-            </List>
-          ) }
-        </div>
-        <Divider flexItem />
-        <div className={styles.skillsWrap}>
-          <Typography variant="h6" className={styles.languageTitle}>Languages</Typography>
-          { loadingLanguages ? (
-            <Skeleton variant="rectangular" width="100%" height={140} />
-          ) : (
-            <List className={styles.skillList}>
-              { languages.map((item) => (
-                <SkillListItem key={item.id} primaryText={`${ item.name }:`} secondaryText={item.level} />
-              )) }
-            </List>
-          ) }
-        </div>
+        </section>
+        <section className={styles.section}>
+          <SectionHeader icon={<TranslateIcon />} title="Languages" />
+          <ul className={styles.languages}>
+            { LANGUAGES.map((item) => (
+              <li key={item.id} className={styles.language}>
+                <span className={styles.languageName}>{ item.name }</span>
+                <span className={styles.languageLevel}>{ item.level }</span>
+              </li>
+            )) }
+          </ul>
+        </section>
       </div>
     </Paper>
   );

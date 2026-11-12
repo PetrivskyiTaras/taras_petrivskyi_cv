@@ -1,0 +1,15 @@
+.root {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: var(--fs-meta);
+  line-height: 1.4;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--mui-palette-divider);
+  background-color: var(--mui-palette-action-hover);
+}

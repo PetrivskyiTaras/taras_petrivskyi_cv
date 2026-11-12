@@ -1,3 +1,14 @@
+/* Type scale shared by all sections (rem scales with the 14px/16px root size). */
+:root {
+  --fs-section: 1.375rem;
+  --fs-title: 1.0625rem;
+  --fs-body: 0.9375rem;
+  --fs-meta: 0.875rem;
+  --fs-label: max(12px, 0.75rem);
+  --lh-tight: 1.3;
+  --lh-body: 1.6;
+}
+
 @layer mui {
   * {
     margin: 0;
@@ -77,5 +88,38 @@
   ::-webkit-inner-spin-button {
     appearance: none;
     margin: 0;
+  }
+}
+
+/* Print: let the whole document flow across pages (the screen layout scrolls inside <main>). */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  html {
+    font-size: 12px;
+
+    /* Print backgrounds too, so the page keeps the selected (light or dark) theme. */
+    print-color-adjust: exact;
+  }
+
+  body,
+  main {
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Fill the whole sheet with the theme's page color (white in light mode to save ink). */
+  html,
+  body,
+  main {
+    background-color: var(--mui-palette-background-default);
+  }
+
+  html:not(.dark),
+  html:not(.dark) body,
+  html:not(.dark) main {
+    background-color: #ffffff;
   }
 }

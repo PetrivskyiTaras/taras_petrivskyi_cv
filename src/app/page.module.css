@@ -15,6 +15,16 @@
     align-items: flex-start;
     padding: 16px;
   }
+
+  /* Print: two columns (sidebar + content) regardless of paper width. */
+  @media print {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0;
+    max-width: none;
+    min-width: 0;
+  }
 }
 
 .mainIfo {
@@ -22,6 +32,11 @@
 
   @media (width >= 900px) {
     max-width: 445px;
+  }
+
+  @media print {
+    width: 34%;
+    flex-shrink: 0;
   }
 }
 
@@ -31,13 +46,8 @@
   gap: 16px;
   max-width: 935px;
   width: 100%;
-}
 
-.purpose {
-  box-shadow: var(--mui-shadows-2);
-}
-
-.purposeRootAlert {
-  display: flex;
-  align-items: center;
+  @media print {
+    gap: 12px;
+  }
 }

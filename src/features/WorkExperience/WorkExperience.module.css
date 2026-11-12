@@ -1,104 +1,166 @@
 .root {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 16px;
-  padding: 16px;
+  padding: 20px;
 }
 
-.experienceTitle {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  width: 100%;
-}
-
-.workExperienceIcon {
-  font-size: 2.12rem;
-}
-
-.collapseAllButton {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-}
-
-.jobInfoWrap {
+/* Timeline: a hairline on the left with a dot per job. */
+.timeline {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
+  gap: 4px;
+  margin-left: 6px;
+  border-left: 2px solid var(--mui-palette-divider);
 }
 
-.jobInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
+.job {
+  position: relative;
+  padding: 8px 0 16px 20px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--mui-palette-background-paper);
+    border: 2px solid var(--mui-palette-primary-main);
+    box-sizing: border-box;
+  }
+
+  &[data-expanded="true"]::before {
+    background-color: var(--mui-palette-primary-main);
+  }
+
+  @media print {
+    padding-bottom: 8px;
+  }
 }
 
-.positionWrap {
+.header {
+  break-inside: avoid;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  width: 100%;
+  gap: 12px;
+  cursor: pointer;
 }
 
-.positionTitle {
-  font-size: 1.6rem;
-  font-weight: 500;
+.headerMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
-.companyNameTitle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.4rem;
-  font-weight: 500;
+.position {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  line-height: var(--lh-tight);
 }
 
-.positionSubTitle {
-  font-size: 1.4rem;
-  font-weight: 500;
+.company {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-tight);
+}
+
+.companyName {
+  font-weight: 600;
+  color: var(--mui-palette-primary-main);
+}
+
+.project {
+  color: var(--mui-palette-text-secondary);
+
+  &::before {
+    content: "·";
+    margin-right: 8px;
+  }
 }
 
 .date {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-}
-
-.dateItem {
+  gap: 6px;
+  font-size: var(--fs-meta);
   font-weight: 500;
-  font-size: 1.3rem;
+  color: var(--mui-palette-success-main);
 }
 
-.list {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.textPrimary {
-  font-size: 1.1rem;
-}
-
-.textSecondary {
+.dateIcon {
   font-size: 1rem;
-  padding-left: 8px;
 }
 
-.responsibilityList {
-  list-style-type: disc;
-  padding-left: 16px;
-  padding-top: 0;
-  padding-bottom: 0;
+.toggle {
+  flex-shrink: 0;
+
+  & svg {
+    transition: transform 200ms ease;
+  }
+
+  [data-expanded="true"] & svg {
+    transform: rotate(180deg);
+  }
+
+  @media print {
+    display: none;
+  }
 }
 
-.responsibilityListItems {
-  display: list-item;
-  padding-bottom: 0;
-  padding-top: 0;
-  padding-left: 4px;
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding-top: 14px;
+}
+
+.projectLink {
+  font-size: var(--fs-meta);
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 18px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+
+  & li::marker {
+    color: var(--mui-palette-primary-main);
+  }
+}
+
+.text {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--mui-palette-text-secondary);
+}
+
+/* Print: always include every job's details, even if collapsed on screen. */
+.collapse {
+  @media print {
+    height: auto !important;
+    visibility: visible !important;
+  }
+}
+
+.toggleAll {
+  @media print {
+    display: none;
+  }
+}
+
+.bullets li {
+  break-inside: avoid;
 }
